@@ -21,6 +21,10 @@
   align-items: center;
 }
 
+.description {
+  text-align: center;
+}
+
 .footer a {
   display: flex;
   justify-content: center;
