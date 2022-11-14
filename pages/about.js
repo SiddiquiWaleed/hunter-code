@@ -9,4 +9,4 @@ const About = props => {
 }
 
 
-export default about
+export default About;
