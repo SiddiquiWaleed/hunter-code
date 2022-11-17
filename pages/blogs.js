@@ -1,37 +1,34 @@
 import React from 'react'
 import styles from '../styles/Blog.module.css'
-import Link from 'next/link'
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+
 
 const Blogs = props => {
+	const [item, setItem] = useState('');
+  useEffect(() => {
+  	console.log('useeffect');
+ fetch(`http://localhost:3000/api/blogs`)
+  .then((response) => response.json())
+  .then((actualData) => {
+  	setItem(actualData);
+  })
+  .catch((err) => {
+   console.log(err.message);
+  });
+}, []);
 	return (
 		<div>
       <main className={styles.main}>
 	      <h2>Latest Blogs</h2>
 	      <ul className={styles.blogposts}>
-	        <li>
-	          <Link href='/blogpost/learn-javascript'>
-		          <h3 className={styles.blogpost}>
-		            How to learn Javascript in 2022?
-		          </h3>
-	          </Link>
-	          <p>Javascript is a language used to build logic for webapps</p>
-	        </li>
-	        <li>
-	          <Link href='/blogpost/learn-javascript'>
-		          <h3 className={styles.blogpost}>
-		            How to learn Javascript in 2022?
-		          </h3>
-	          </Link>
-	          <p>Javascript is a language used to build logic for webapps</p>
-	        </li>
-	        <li>
-	          <Link href='/blogpost/learn-javascript'>
-		          <h3 className={styles.blogpost}>
-		            How to learn Javascript in 2022?
-		          </h3>
-	          </Link>
-	          <p>Javascript is a language used to build logic for webapps</p>
-	        </li>
+	      	{item &&
+          item.map((i) => (
+            <li key={i.title}>
+              <h3>{i.title}</h3>
+              <p>{i.body}</p>
+            </li>
+          ))}
 	      </ul>
     	</main>
 		</div>

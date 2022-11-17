@@ -1,14 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-
 const fs = require('fs');
+export default async function handler(req, res) {
 
-export default function handler (req, res) {
-fs.readdir('blogdata', 'utf8', (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  res.status(200).json(data)
-});
+let data = await fs.promises.readdir("public/blogdata");
+let myfile;
+let allBlogs = [];
+
+for(let index=0; index < data.length; index++) {
+	const item = data[index];
+	myfile  = await fs.promises.readFile(('public/blogdata/' + item), 'utf-8');
+	allBlogs.push(JSON.parse(myfile));
+}
+res.status(200).json(allBlogs);
 }
