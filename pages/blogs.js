@@ -7,7 +7,6 @@ import { useState, useEffect } from 'react';
 const Blogs = props => {
 	const [item, setItem] = useState('');
   useEffect(() => {
-  	console.log('useeffect');
  fetch(`http://localhost:3000/api/blogs`)
   .then((response) => response.json())
   .then((actualData) => {
@@ -23,10 +22,10 @@ const Blogs = props => {
 	      <h2>Latest Blogs</h2>
 	      <ul className={styles.blogposts}>
 	      	{item &&
-          item.map((i) => (
-            <li key={i.title}>
-              <h3>{i.title}</h3>
-              <p>{i.body}</p>
+          item.map((blogitem) => (
+            <li key={blogitem.title}>
+              <Link href={`/blogpost/${blogitem.slug}`}><h3>{blogitem.title}</h3></Link>
+              <p>{blogitem.body}</p>
             </li>
           ))}
 	      </ul>
@@ -35,4 +34,4 @@ const Blogs = props => {
 	)
 }
 
-export default Blogs
+export default Blogs;

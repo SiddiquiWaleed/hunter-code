@@ -4,12 +4,12 @@
 const fs = require('fs');
 
 export default function handler (req, res) {
-fs.readFile(`blogdata/${req.query.slug}.json`, 'utf8', (err, data) => {
+fs.readFile(`public/blogdata/${req.query.slug}.json`, 'utf8', (err, data) => {
   if (err) {
     console.error(err);
     return;
   }
-  var data1 = data;
-  res.send(data1);
+  res.status(200).json(JSON.parse(data))
+  console.log(data);
 });
 }
