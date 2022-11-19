@@ -4,33 +4,31 @@ import styles from '../../styles/Home.module.css';
 import { useState, useEffect } from 'react';
 
 const slug = props => {
-	const [blog, setBlog] = useState('');
+	// const [blog, setBlog] = useState('');
 	const router = useRouter();
-  useEffect(() => {
-  if(!router.isReady) return
-  const {slug} = router.query;
-	 fetch(`http://localhost:3000/api/getblog?slug=${slug}`)
-	  .then((response) => response.json())
-	  .then((actualData) => {
-	  	setBlog(actualData);
-	  })
-	  .catch((err) => {
-	   console.log(err.message);
-	  });
-	}, [router.isReady]);
+	let data;
 	return (
 		<div className={styles.container}>
 			<main className={styles.main}>
 				<div>
-					<h1>{blog && blog.title}</h1>
+					<h1>{props.data && props.data.title}</h1>
 					<hr />
 					<div className={styles.description}>
-						{ blog && blog.body}
+						{ props.data && props.data.body}
 					</div>
 				</div>
 			</main>
 		</div>
 	)
+}
+
+export async function getServerSideProps(props) {
+  // Fetch data from external API
+  const {slug} = props.query;
+  console.log({slug});
+  const res = await fetch(`http://localhost:3000/api/getblog?slug=${slug}`);
+  const data = await res.json();
+  return { props: { data } };
 }
 
 

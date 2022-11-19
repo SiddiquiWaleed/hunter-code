@@ -1,28 +1,22 @@
 import React from 'react'
 import styles from '../styles/Blog.module.css'
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
 
 
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const res = await fetch(`http://localhost:3000/api/blogs`);
+  const data = await res.json();
+  return { props: { data } };
+}
 const Blogs = props => {
-	const [item, setItem] = useState('');
-  useEffect(() => {
- fetch(`http://localhost:3000/api/blogs`)
-  .then((response) => response.json())
-  .then((actualData) => {
-  	setItem(actualData);
-  })
-  .catch((err) => {
-   console.log(err.message);
-  });
-}, []);
 	return (
 		<div>
       <main className={styles.main}>
 	      <h2>Latest Blogs</h2>
 	      <ul className={styles.blogposts}>
-	      	{item &&
-          item.map((blogitem) => (
+	      	{props.data &&
+          props.data.map((blogitem) => (
             <li key={blogitem.title}>
               <Link href={`/blogpost/${blogitem.slug}`}><h3>{blogitem.title}</h3></Link>
               <p>{blogitem.body}</p>
