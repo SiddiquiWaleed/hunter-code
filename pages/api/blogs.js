@@ -13,6 +13,5 @@ for(let index=0; index < data.length; index++) {
 	allBlogs.push(JSON.parse(myfile));
 }
 res.status(200).json(allBlogs);
-	console.log(allBlogs);
 
 }
